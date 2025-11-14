@@ -2,7 +2,7 @@ from platform import node
 import matplotlib.pyplot as plt
 import networkx as nx
 from typing import Dict, Set, Optional, Any
-from integuru.util.LLM import llm
+from integuru.util.LLM import LLMSingleton
 import json
 from langchain_openai import ChatOpenAI
 from typing import List
@@ -244,15 +244,8 @@ def generate_code(node_id: str, graph: nx.DiGraph) -> str:
 
     """
 
-    # Make the API call using o1_llm
-
-    llm_model = llm.switch_to_alternate_model()
-    try:
-        response = llm_model.invoke(prompt)
-    except Exception as e:
-        print("Switching to default model")
-        llm.revert_to_default_model()
-        response = llm.switch_to_alternate_model().invoke(prompt)
+    llm_model = LLMSingleton.get_code_generation_instance()
+    response = llm_model.invoke(prompt)
 
     # Extract the generated code from the response
     code = response.content.strip()
@@ -295,13 +288,9 @@ def aggregate_functions(txt_path, output_path):
 
     # Get the response from ChatGPT
 
-    llm_model = llm.switch_to_alternate_model()
-    try:
-        response = llm_model.invoke(prompt)
-    except Exception as e:
-        print("Switching to default model")
-        llm.revert_to_default_model()
-        response = llm.switch_to_alternate_model().invoke(prompt)
+    llm_model = LLMSingleton.get_code_generation_instance()
+    response = llm_model.invoke(prompt)
+
     # Extract the generated code
     generated_code = response.content.strip()
 
@@ -449,6 +438,3 @@ def print_dag_in_reverse(graph: nx.DiGraph, max_depth: Optional[int] = None, to_
         
         aggregate_functions("generated_code.txt", "generated_code.py")
         print("--------------Generated integration code in generated_code.py!!------------")
-
-
-
