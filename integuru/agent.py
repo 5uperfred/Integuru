@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 from typing import List, Dict, Any, Optional, Set
 
-from integuru.util.LLM import llm
+from integuru.util.LLM import LLMSingleton
 from integuru.models.DAGManager import DAGManager
 from integuru.util.har_processing import *
 from integuru.models.request import Request
@@ -34,6 +34,7 @@ class IntegrationAgent:
         self.curl_to_id_dict: Dict[str, str] = {}
         self.cookie_to_id_dict: Dict[str, str] = {}
         self.dag_manager: DAGManager = DAGManager()
+        self.llm = LLMSingleton.get_instance()
 
     def end_url_identify_agent(self, state: AgentState) -> AgentState:
         """
@@ -61,7 +62,7 @@ class IntegrationAgent:
         {self.prompt}
         """
 
-        response = llm.get_instance().invoke(
+        response = self.llm.invoke(
             prompt,
             functions=[function_def],
             function_call={"name": "identify_end_url"}
@@ -123,7 +124,7 @@ class IntegrationAgent:
         """
 
 
-        response = llm.get_instance().invoke(
+        response = self.llm.invoke(
             prompt,
             functions=[function_def],
             function_call={"name": "identify_input_variables"}
@@ -200,7 +201,7 @@ class IntegrationAgent:
 
         """
 
-        response = llm.get_instance().invoke(
+        response = self.llm.invoke(
             prompt,
             functions=[function_def],
             function_call={"name": "identify_dynamic_parts"}
@@ -276,7 +277,7 @@ class IntegrationAgent:
         The index should be 0-based (i.e., the first item has index 0).
         """
 
-        response = llm.get_instance().invoke(
+        response = self.llm.invoke(
             prompt,
             functions=[function_def],
             function_call={"name": "get_simplest_curl_index"}
@@ -408,4 +409,3 @@ class IntegrationAgent:
             if search_string in value.get("value", ""):
                 return key
         return None
-    

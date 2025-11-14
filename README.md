@@ -40,7 +40,11 @@ Let's assume we want to download utility bills:
 
 ## Setup
 
-1. Set up your OpenAI [API Keys](https://platform.openai.com/account/api-keys) and add the `OPENAI_API_KEY` environment variable. (We recommend using an account with access to models that are at least as capable as OpenAI o1-mini. Models on par with OpenAI o1-preview are ideal.)
+1. Copy the `.env.example` file to a new file named `.env` and add your API keys.
+   ```bash
+   cp .env.example .env
+   ```
+   You will need to add your `OPENAI_API_KEY` and/or `GOOGLE_API_KEY` to this file, depending on which LLM provider you intend to use.
 2. Install Python requirements via poetry:
    ```
    poetry install
@@ -88,6 +92,15 @@ Options:
                                   code
   --help                          Show this message and exit.
 ```
+
+## Configuring the LLM Provider
+
+You can switch between LLM providers by setting the `LLM_PROVIDER` environment variable in your `.env` file. The supported providers are:
+
+- `gemini` (default)
+- `openai`
+
+If you do not set this variable, Integuru will default to using the Gemini API with the `gemini-1.5-flash` model.
 
 
 ## Running Unit Tests

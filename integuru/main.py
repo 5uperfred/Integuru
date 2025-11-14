@@ -1,6 +1,6 @@
 from typing import List
 from integuru.graph_builder import build_graph
-from integuru.util.LLM import llm
+from integuru.util.LLM import LLMSingleton
 
 agent = None
 
@@ -14,7 +14,7 @@ async def call_agent(
     to_generate_code: bool = False,
 ):  
     
-    llm.set_default_model(model)
+    LLMSingleton.get_instance(model=model)
 
     global agent
     graph, agent = build_graph(prompt, har_file_path, cookie_path, to_generate_code)
