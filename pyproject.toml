@@ -7,16 +7,17 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.12,<3.13"
-langchain-openai = "^0.2.0"
-langchain-core = "^0.3.1"
-langgraph = "^0.2.22"
-langsmith = "^0.1.122"
 python-dotenv = "^1.0.1"
 click = "^8.1.7"
 playwright = "^1.47.0"
 networkx = "^3.3"
 matplotlib = "^3.9.2"
 ipykernel = "^6.29.5"
+langchain-openai = "^1.0.2"
+langchain-core = "^1.0.4"
+langgraph = "^1.0.3"
+langsmith = "^0.4.42"
+langchain-google-genai = "^3.0.3"
 
 [tool.poetry.scripts]
 integuru = "integuru.__main__:cli"
