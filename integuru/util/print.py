@@ -4,7 +4,6 @@ import networkx as nx
 from typing import Dict, Set, Optional, Any
 from integuru.util.LLM import LLMSingleton
 import json
-from langchain_openai import ChatOpenAI
 from typing import List
 from openai import NotFoundError  # Add this import
 
